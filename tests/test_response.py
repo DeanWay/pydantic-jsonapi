@@ -32,10 +32,6 @@ class TestResponse:
             'errors': None,
         }
 
-    def test_data_and_erros_mutally_exclusive(self):
-        MyResponse = Response[dict]
-        with raises(ValidationError):
-            MyResponse(data={}, errors=[])
 
 class TestResponsetData:
     def test_needs_attributes_type(self):

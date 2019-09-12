@@ -21,11 +21,3 @@ class Response(GenericModel, Generic[DataT]):
     meta: Optional[dict]
     links: Optional[dict]
     errors: Optional[List[Error]]
-
-    @validator('errors', always=True, whole=True)
-    def check_consistency(cls, v, values):
-        if v is not None and values['data'] is not None:
-            raise ValueError('must not provide both data and errors')
-        if v is None and values.get('data') is None:
-            raise ValueError('must provide data or errors')
-        return v
