@@ -9,9 +9,10 @@ pytest = "*"
 pylint = "*"
 tox = "*"
 pydantic = ">=0.32.2"
+bumpversion = "*"
 
 [packages]
-pydantic-jsonapi = {editable = true, path = "."}
+pydantic-jsonapi = {editable = true,path = "."}
 
 [requires]
 python_version = "3.7"
