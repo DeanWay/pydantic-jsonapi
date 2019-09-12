@@ -1,9 +1,7 @@
-from .request import Request, RequestData
-from .response import Response, ResponseData
+from .request import JsonApiRequest
+from .response import JsonApiResponse
 
 __all__ = [
-    'Request',
-    'RequestData',
-    'Response',
-    'ResponseData',
+    'JsonApiRequest',
+    'JsonApiResponse',
 ]

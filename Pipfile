@@ -9,6 +9,7 @@ pytest = "*"
 pylint = "*"
 tox = "*"
 pydantic = ">=0.32.2"
+typing-extensions = ">=3.7.4"
 bumpversion = "*"
 
 [packages]

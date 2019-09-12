@@ -19,6 +19,7 @@ setup(
     ],
     install_requires=[
         'pydantic>=0.32.2',
+        'typing-extensions>=3.7.4'
     ],
     python_requires='>=3.7',
 )

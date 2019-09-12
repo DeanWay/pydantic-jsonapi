@@ -1,23 +1,33 @@
-from typing import Generic, TypeVar, Optional, List
+from typing import Generic, TypeVar, Optional, List, Any, Type
+from typing_extensions import Literal
 
 from pydantic import validator
 from pydantic.generics import GenericModel
 
 from pydantic_jsonapi.errors import Error
 
-
+TypeT = TypeVar('TypeT')
 AttributesT = TypeVar('AttributesT')
-class ResponseData(GenericModel, Generic[AttributesT]):
+class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
     id: str
-    type: str
+    type: TypeT
     attributes: AttributesT
     relationships: Optional[dict]
 
 
 DataT = TypeVar('DataT')
-class Response(GenericModel, Generic[DataT]):
+class ResponseModel(GenericModel, Generic[DataT]):
     data: Optional[DataT]
     included: Optional[dict]
     meta: Optional[dict]
     links: Optional[dict]
     errors: Optional[List[Error]]
+
+
+def JsonApiResponse(type_string: str, attributes_model: Any) -> Type[ResponseModel]:
+    return ResponseModel[
+        ResponseDataModel[
+            Literal[type_string],
+            attributes_model,
+        ],
+    ]
