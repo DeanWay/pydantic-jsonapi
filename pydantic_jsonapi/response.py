@@ -5,6 +5,7 @@ from pydantic import validator
 from pydantic.generics import GenericModel
 
 from pydantic_jsonapi.errors import Error
+from pydantic_jsonapi.relationships import RelationshipsType
 
 TypeT = TypeVar('TypeT')
 AttributesT = TypeVar('AttributesT')
@@ -12,7 +13,7 @@ class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
     id: str
     type: TypeT
     attributes: AttributesT
-    relationships: Optional[dict]
+    relationships: Optional[RelationshipsType]
 
 
 DataT = TypeVar('DataT')

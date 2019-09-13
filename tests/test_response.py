@@ -36,7 +36,14 @@ class TestJsonApiResponse:
                     'name': 'apple',
                     'quantity': 10,
                     'price': 1.20
-                }
+                },
+                'relationships': {
+                    'store': {
+                        'links': {
+                            'related': '/stores/123',
+                        },
+                    },
+                },
             }
         }
         my_request_obj = ItemResponse(**obj_to_validate)
@@ -49,7 +56,15 @@ class TestJsonApiResponse:
                     'quantity': 10,
                     'price': 1.20,
                 },
-                'relationships': None,
+                'relationships': {
+                    'store': {
+                        'links': {
+                            'related': '/stores/123',
+                        },
+                        'data': None,
+                        'meta': None,
+                    },
+                },
             },
             'errors': None,
             'included': None,

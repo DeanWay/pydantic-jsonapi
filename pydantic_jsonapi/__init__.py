@@ -11,6 +11,7 @@ def JsonApiModel(type_string: str, attributes_model: Any) -> tuple:
     )
 
 __all__ = [
+    'JsonApiModel',
     'JsonApiRequest',
     'JsonApiResponse',
 ]
