@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="pydantic_jsonapi",
-    version="0.1.3",
+    version="0.2.0",
     author="Dean Way",
     description="an implementation of JSON:api using pydantic",
     long_description=long_description,
