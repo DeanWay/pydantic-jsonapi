@@ -6,6 +6,8 @@ from pydantic.generics import GenericModel
 
 from pydantic_jsonapi.errors import Error
 from pydantic_jsonapi.relationships import RelationshipsType
+from pydantic_jsonapi.links import LinksType
+
 
 TypeT = TypeVar('TypeT')
 AttributesT = TypeVar('AttributesT')
@@ -21,7 +23,7 @@ class ResponseModel(GenericModel, Generic[DataT]):
     data: Optional[DataT]
     included: Optional[dict]
     meta: Optional[dict]
-    links: Optional[dict]
+    links: Optional[LinksType]
     errors: Optional[List[Error]]
 
 
