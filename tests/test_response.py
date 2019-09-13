@@ -72,6 +72,60 @@ class TestJsonApiResponse:
             'meta': None,
         }
 
+    def test_list_item_model(self):
+        ItemResponse = JsonApiResponse('item', ItemModel, use_list=True)
+        obj_to_validate = {
+            'data': [
+                {
+                    'id': '123',
+                    'type': 'item',
+                    'attributes': {
+                        'name': 'apple',
+                        'quantity': 10,
+                        'price': 1.20
+                    },
+                },
+                {
+                    'id': '321',
+                    'type': 'item',
+                    'attributes': {
+                        'name': 'banana',
+                        'quantity': 20,
+                        'price': 2.34
+                    },
+                },
+            ],
+        }
+        my_request_obj = ItemResponse(**obj_to_validate)
+        assert my_request_obj.dict() == {
+            'data': [
+                {
+                    'id': '123',
+                    'type': 'item',
+                    'attributes': {
+                        'name': 'apple',
+                        'quantity': 10,
+                        'price': 1.20,
+                    },
+                    'relationships': None,
+                },
+                {
+                    'id': '321',
+                    'type': 'item',
+                    'attributes': {
+                        'name': 'banana',
+                        'quantity': 20,
+                        'price': 2.34,
+                    },
+                    'relationships': None,
+                },
+            ],
+            'errors': None,
+            'included': None,
+            'links': None,
+            'meta': None,
+        }
+
     def test_type_invalid_string(self):
         MyResponse = JsonApiResponse('item', dict)
         obj_to_validate = {

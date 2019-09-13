@@ -27,10 +27,16 @@ class ResponseModel(GenericModel, Generic[DataT]):
     errors: Optional[List[Error]]
 
 
-def JsonApiResponse(type_string: str, attributes_model: Any) -> Type[ResponseModel]:
-    return ResponseModel[
-        ResponseDataModel[
-            Literal[type_string],
-            attributes_model,
-        ],
+def JsonApiResponse(
+    type_string: str,
+    attributes_model: Any,
+    *,
+    use_list: bool = False
+) -> Type[ResponseModel]:
+    request_data_model = ResponseDataModel[
+        Literal[type_string],
+        attributes_model,
     ]
+    if use_list:
+        request_data_model = List[request_data_model]
+    return ResponseModel[request_data_model]
