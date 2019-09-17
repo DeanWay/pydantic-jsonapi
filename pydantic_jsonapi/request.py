@@ -11,10 +11,12 @@ class RequestDataModel(GenericModel, Generic[TypeT, AttributesT]):
     attributes: AttributesT
 
 
-DataT = TypeVar('DataT')
+DataT = TypeVar('DataT', RequestDataModel)
 class RequestModel(GenericModel, Generic[DataT]):
     data: DataT
 
+    def attributes(self):
+        return self.data.attributes
 
 def JsonApiRequest(type_string: str, attributes_model: Any) -> Type[RequestModel]:
     return RequestModel[
