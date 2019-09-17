@@ -5,6 +5,7 @@ from pydantic import validator
 from pydantic.generics import GenericModel
 
 from pydantic_jsonapi.errors import Error
+from pydantic_jsonapi.filter import filter_none
 from pydantic_jsonapi.relationships import RelationshipsType
 from pydantic_jsonapi.links import LinksType
 
@@ -26,6 +27,16 @@ class ResponseModel(GenericModel, Generic[DataT]):
     links: Optional[LinksType]
     errors: Optional[List[Error]]
 
+    def dict(
+        self,
+        *,
+        serlialize_none: bool = False,
+        **kwargs
+    ):
+        response = super().dict(**kwargs)
+        if serlialize_none:
+            return response
+        return filter_none(response)
 
 def JsonApiResponse(
     type_string: str,

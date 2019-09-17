@@ -18,12 +18,7 @@ class TestJsonApiResponse:
                 'id': '123',
                 'type': 'item',
                 'attributes': {},
-                'relationships': None,
             },
-            'errors': None,
-            'included': None,
-            'links': None,
-            'meta': None,
         }
 
     def test_attributes_as_item_model(self):
@@ -61,15 +56,9 @@ class TestJsonApiResponse:
                         'links': {
                             'related': '/stores/123',
                         },
-                        'data': None,
-                        'meta': None,
                     },
                 },
             },
-            'errors': None,
-            'included': None,
-            'links': None,
-            'meta': None,
         }
 
     def test_list_item_model(self):
@@ -107,7 +96,6 @@ class TestJsonApiResponse:
                         'quantity': 10,
                         'price': 1.20,
                     },
-                    'relationships': None,
                 },
                 {
                     'id': '321',
@@ -117,13 +105,8 @@ class TestJsonApiResponse:
                         'quantity': 20,
                         'price': 2.34,
                     },
-                    'relationships': None,
                 },
             ],
-            'errors': None,
-            'included': None,
-            'links': None,
-            'meta': None,
         }
 
     def test_type_invalid_string(self):
