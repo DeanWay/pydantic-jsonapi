@@ -11,7 +11,7 @@ class RequestDataModel(GenericModel, Generic[TypeT, AttributesT]):
     attributes: AttributesT
 
 
-DataT = TypeVar('DataT', RequestDataModel)
+DataT = TypeVar('DataT', bound=RequestDataModel)
 class RequestModel(GenericModel, Generic[DataT]):
     data: DataT
 
