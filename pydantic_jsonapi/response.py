@@ -13,6 +13,8 @@ from pydantic_jsonapi.links import LinksType
 TypeT = TypeVar('TypeT')
 AttributesT = TypeVar('AttributesT')
 class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
+    """
+    """
     id: str
     type: TypeT
     attributes: AttributesT
@@ -21,6 +23,8 @@ class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
 
 DataT = TypeVar('DataT')
 class ResponseModel(GenericModel, Generic[DataT]):
+    """
+    """
     data: Optional[DataT]
     included: Optional[dict]
     meta: Optional[dict]
@@ -44,10 +48,13 @@ def JsonApiResponse(
     *,
     use_list: bool = False
 ) -> Type[ResponseModel]:
-    request_data_model = ResponseDataModel[
+    response_data_model = ResponseDataModel[
         Literal[type_string],
         attributes_model,
     ]
     if use_list:
-        request_data_model = List[request_data_model]
-    return ResponseModel[request_data_model]
+        response_data_model = List[request_data_model]
+    response_data_model.__name__ = f'ResponseData[{type_string}]'
+    response_model = ResponseModel[response_data_model]
+    response_model.__name__ = f'Response[{type_string}]'
+    return response_model
