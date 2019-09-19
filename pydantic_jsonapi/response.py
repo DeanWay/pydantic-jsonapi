@@ -54,7 +54,11 @@ def JsonApiResponse(
     ]
     if use_list:
         response_data_model = List[response_data_model]
-    response_data_model.__name__ = f'ResponseData[{type_string}]'
-    response_model = ResponseModel[response_data_model]
-    response_model.__name__ = f'Response[{type_string}]'
+        response_data_model.__name__ = f'ListResponseData[{type_string}]'
+        response_model = ResponseModel[response_data_model]
+        response_model.__name__ = f'ListResponse[{type_string}]'
+    else:
+        response_data_model.__name__ = f'ResponseData[{type_string}]'
+        response_model = ResponseModel[response_data_model]
+        response_model.__name__ = f'Response[{type_string}]'
     return response_model
