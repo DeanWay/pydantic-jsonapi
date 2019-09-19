@@ -124,11 +124,6 @@ class TestJsonApiResponse:
                 'type': 'value_error.const',
                 'ctx': {'given': 'not_an_item', 'permitted': ('item',)},
             },
-            {
-                'loc': ('data',),
-                'msg': 'value is not none',
-                'type': 'type_error.none.allowed',
-            },
         ]
 
     def test_attributes_required(self):
@@ -144,11 +139,6 @@ class TestJsonApiResponse:
                 'loc': ('data', 'attributes'),
                 'msg': 'value is not a valid dict',
                 'type': 'type_error.dict',
-            },
-            {
-                'loc': ('data',),
-                'msg': 'value is not none',
-                'type': 'type_error.none.allowed',
             },
         ]
 
@@ -168,5 +158,4 @@ class TestJsonApiResponse:
             {'loc': ('data', 'attributes', 'name'), 'msg': 'field required', 'type': 'value_error.missing'},
             {'loc': ('data', 'attributes', 'quantity'), 'msg': 'field required', 'type': 'value_error.missing'},
             {'loc': ('data', 'attributes', 'price'), 'msg': 'field required', 'type': 'value_error.missing'},
-            {'loc': ('data',), 'msg': 'value is not none', 'type': 'type_error.none.allowed'},
         ]

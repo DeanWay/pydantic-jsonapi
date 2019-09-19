@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -11,3 +11,7 @@ class ErrorSource(BaseModel):
 class Error(BaseModel):
     status: int
     source: Optional[ErrorSource]
+
+
+class ErrorResponse(BaseModel):
+    errors: List[Error]

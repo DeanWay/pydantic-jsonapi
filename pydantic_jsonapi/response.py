@@ -25,11 +25,10 @@ DataT = TypeVar('DataT')
 class ResponseModel(GenericModel, Generic[DataT]):
     """
     """
-    data: Optional[DataT]
+    data: DataT
     included: Optional[dict]
     meta: Optional[dict]
     links: Optional[LinksType]
-    errors: Optional[List[Error]]
 
     def dict(
         self,
