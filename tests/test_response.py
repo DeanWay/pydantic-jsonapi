@@ -10,7 +10,8 @@ class TestJsonApiResponse:
     def test_attributes_as_dict(self):
         MyResponse = JsonApiResponse('item', dict)
         obj_to_validate = {
-            'data': {'id': '123', 'type': 'item', 'attributes': {}}
+            'data': {'id': '123', 'type': 'item', 'attributes': {}},
+            'included': [{'id': '456', 'type': 'not-an-item', 'attributes': {}}]
         }
         my_request_obj = MyResponse(**obj_to_validate)
         assert my_request_obj.dict() == {
@@ -19,6 +20,11 @@ class TestJsonApiResponse:
                 'type': 'item',
                 'attributes': {},
             },
+            'included': [{
+                'id': '456',
+                'type': 'not-an-item',
+                'attributes': {}
+            }]
         }
 
     def test_attributes_as_item_model(self):

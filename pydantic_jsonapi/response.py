@@ -26,7 +26,7 @@ class ResponseModel(GenericModel, Generic[DataT]):
     """
     """
     data: DataT
-    included: Optional[dict]
+    included: Optional[list]
     meta: Optional[dict]
     links: Optional[LinksType]
 
