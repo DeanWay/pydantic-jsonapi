@@ -12,13 +12,33 @@ class TestRelationshipsType:
     def test_follows_strucutre(self):
         validated = Relatable(relationships={
             'walter': {
+                'data': None,
                 'links': {
                     'self': '/person/walter'
                 }
             },
             'wendy': {
+                'data': {
+                    'id': '1',
+                    'type': 'wendy-type'
+                },
                 'links': {
                     'self': '/person/wendy'
+                }
+            },
+            'wandas': {
+                'data': [],
+                'links': {
+                    'self': '/person/wandas'
+                }
+            },
+            'warners': {
+                'data': [{
+                    'id': '1',
+                    'type': 'warner-type'
+                }],
+                'links': {
+                    'self': '/person/warners'
                 }
             }
         })
@@ -35,9 +55,29 @@ class TestRelationshipsType:
                     'links': {
                         'self': '/person/wendy'
                     },
-                    'data': None,
+                    'data': {
+                        'id': '1',
+                        'type': 'wendy-type'
+                    },
                     'meta': None,
-                }
+                },
+                'wandas': {
+                    'links': {
+                        'self': '/person/wandas'
+                    },
+                    'data': [],
+                    'meta': None,
+                },
+                'warners': {
+                    'links': {
+                        'self': '/person/warners'
+                    },
+                    'data': [{
+                        'id': '1',
+                        'type': 'warner-type'
+                    }],
+                    'meta': None,
+                },
             }
         }
 
