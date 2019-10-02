@@ -57,7 +57,8 @@ class TestRelationshipsType:
                     },
                     'data': {
                         'id': '1',
-                        'type': 'wendy-type'
+                        'type': 'wendy-type',
+                        'meta': None,
                     },
                     'meta': None,
                 },
@@ -74,7 +75,8 @@ class TestRelationshipsType:
                     },
                     'data': [{
                         'id': '1',
-                        'type': 'warner-type'
+                        'type': 'warner-type',
+                        'meta': None,
                     }],
                     'meta': None,
                 },

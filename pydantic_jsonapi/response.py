@@ -7,7 +7,7 @@ from pydantic.generics import GenericModel
 from pydantic_jsonapi.errors import Error
 from pydantic_jsonapi.filter import filter_none
 from pydantic_jsonapi.relationships import RelationshipsType
-from pydantic_jsonapi.links import LinksType
+from pydantic_jsonapi.resource_links import LinksType
 
 
 TypeT = TypeVar('TypeT')

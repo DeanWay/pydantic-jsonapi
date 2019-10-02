@@ -1,6 +1,6 @@
 from pytest import raises
 
-from pydantic_jsonapi.links import LinksType
+from pydantic_jsonapi.resource_links import LinksType
 from pydantic import BaseModel, ValidationError
 
 
