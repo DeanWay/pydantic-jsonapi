@@ -8,4 +8,4 @@ class LinkHref(BaseModel):
     meta: dict
 
 Link = Union[str, LinkHref]
-LinksType = Mapping[str, Link]
+ResourceLinks = Mapping[str, Link]

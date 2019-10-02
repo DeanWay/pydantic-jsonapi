@@ -1,14 +1,14 @@
 from pytest import raises
 
-from pydantic_jsonapi.resource_links import LinksType
+from pydantic_jsonapi.resource_links import ResourceLinks
 from pydantic import BaseModel, ValidationError
 
 
 class ThingWithLinks(BaseModel):
-    links: LinksType
+    links: ResourceLinks
 
 
-class TestLinksType:
+class TestResourceLinks:
     def test_follows_strucutre(self):
         structure_to_validate = {
             'links': {
