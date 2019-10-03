@@ -9,6 +9,10 @@ class ErrorSource(BaseModel):
 
 
 class Error(BaseModel):
+    """
+    currently incomplete representation of:
+    https://jsonapi.org/format/#error-objects
+    """
     status: int
     source: Optional[ErrorSource]
 

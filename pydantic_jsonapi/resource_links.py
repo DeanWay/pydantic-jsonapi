@@ -9,3 +9,4 @@ class LinkHref(BaseModel):
 
 Link = Union[str, LinkHref]
 ResourceLinks = Mapping[str, Link]
+ResourceLinks.__doc__ = "https://jsonapi.org/format/#document-links"
