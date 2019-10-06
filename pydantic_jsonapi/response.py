@@ -1,10 +1,8 @@
 from typing import Generic, TypeVar, Optional, List, Any, Type
 from typing_extensions import Literal
 
-from pydantic import validator
 from pydantic.generics import GenericModel
 
-from pydantic_jsonapi.errors import Error
 from pydantic_jsonapi.filter import filter_none
 from pydantic_jsonapi.relationships import RelationshipsType
 from pydantic_jsonapi.resource_links import ResourceLinks
@@ -17,8 +15,11 @@ class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
     """
     id: str
     type: TypeT
-    attributes: AttributesT
+    attributes: AttributesT = {}
     relationships: Optional[RelationshipsType]
+
+    class Config:
+        validate_all = True
 
 
 DataT = TypeVar('DataT')
