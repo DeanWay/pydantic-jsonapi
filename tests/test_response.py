@@ -13,8 +13,8 @@ class TestJsonApiResponse:
             'data': {'id': '123', 'type': 'item', 'attributes': {}},
             'included': [{'id': '456', 'type': 'not-an-item', 'attributes': {}}]
         }
-        my_request_obj = MyResponse(**obj_to_validate)
-        assert my_request_obj.dict() == {
+        my_response_object = MyResponse(**obj_to_validate)
+        assert my_response_object.dict() == {
             'data': {
                 'id': '123',
                 'type': 'item',
@@ -26,6 +26,38 @@ class TestJsonApiResponse:
                 'attributes': {}
             }]
         }
+
+    def test_missing_attributes_dict(self):
+        MyResponse = JsonApiResponse('item', dict)
+        obj_to_validate = {
+            'data': {'id': '123', 'type': 'item'}
+        }
+        my_response_object = MyResponse(**obj_to_validate)
+        assert my_response_object.dict() == {
+            'data': {
+                'id': '123',
+                'type': 'item',
+                'attributes': {},
+            }
+        }
+
+    def test_missing_attributes_empty_model(self):
+        class EmptyModel(BaseModel):
+            pass
+
+        MyResponse = JsonApiResponse('item', EmptyModel)
+        obj_to_validate = {
+            'data': {'id': '123', 'type': 'item'}
+        }
+        my_response_object = MyResponse(**obj_to_validate)
+        assert my_response_object.dict() == {
+            'data': {
+                'id': '123',
+                'type': 'item',
+                'attributes': {},
+            }
+        }
+        assert isinstance(my_response_object.data.attributes, EmptyModel)
 
     def test_attributes_as_item_model(self):
         ItemResponse = JsonApiResponse('item', ItemModel)
@@ -47,8 +79,8 @@ class TestJsonApiResponse:
                 },
             }
         }
-        my_request_obj = ItemResponse(**obj_to_validate)
-        assert my_request_obj.dict() == {
+        my_response_obj = ItemResponse(**obj_to_validate)
+        assert my_response_obj.dict() == {
             'data': {
                 'id': '123',
                 'type': 'item',
@@ -91,8 +123,8 @@ class TestJsonApiResponse:
                 },
             ],
         }
-        my_request_obj = ItemResponse(**obj_to_validate)
-        assert my_request_obj.dict() == {
+        my_response_obj = ItemResponse(**obj_to_validate)
+        assert my_response_obj.dict() == {
             'data': [
                 {
                     'id': '123',
