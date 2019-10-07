@@ -12,4 +12,4 @@ class RelationshipModel(BaseModel):
     meta: Optional[dict]
 
 RelationshipsType = Mapping[str, RelationshipModel]
-
+RelationshipsType.__doc__ = "https://jsonapi.org/format/#document-resource-object-relationships"
