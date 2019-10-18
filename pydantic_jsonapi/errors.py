@@ -1,6 +1,7 @@
 from typing import Optional, List
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
+from pydantic_jsonapi.filter import filter_none
 from pydantic_jsonapi.resource_links import ResourceLinks
 
 
@@ -23,3 +24,17 @@ class Error(BaseModel):
 
 class ErrorResponse(BaseModel):
     errors: List[Error]
+
+def transform_to_json_api_errors(validation_error: ValidationError) -> dict:
+    def transform_error(error):
+        return {
+            'detail': error.get('msg'),
+            'title': error.get('type'),
+            'source': {
+                'pointer': '/' + '/'.join(error['loc']),
+            },
+        }
+    error_response = ErrorResponse(
+        errors=[transform_error(error) for error in validation_error.errors()]
+    )
+    return filter_none(error_response.dict())

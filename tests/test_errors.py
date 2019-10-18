@@ -1,8 +1,12 @@
 from functools import reduce
 
 import pytest
-from pydantic_jsonapi import ErrorResponse
+from pytest import raises
+from pydantic import ValidationError
+from pydantic_jsonapi import JsonApiRequest, ErrorResponse, transform_to_json_api_errors
 from pydantic_jsonapi.filter import filter_none
+
+from tests.helpers import ItemRequest
 
 errors_wrapper = lambda d: { 'errors': [d] }
 
@@ -41,3 +45,31 @@ def test_empty_error_response_valid():
     error_response = { 'errors': [] }
     validated = ErrorResponse(**error_response)
     assert filter_none(validated.dict()) == error_response
+
+def test_transform_to_json_api_errors():
+    with raises(ValidationError) as e:
+        ItemRequest(**{
+            'data': {
+                'type': 'user'
+            }
+        })
+    assert transform_to_json_api_errors(
+        e.value
+    ) == {
+        'errors': [
+            {
+                'detail': "unexpected value; permitted: 'item'",
+                'source': {
+                    'pointer': '/data/type'
+                },
+                'title': 'value_error.const'
+            },
+            {
+                'detail': 'field required',
+                'source': {
+                    'pointer': '/data/attributes'
+                },
+                'title': 'value_error.missing'
+            },
+        ]
+    }
