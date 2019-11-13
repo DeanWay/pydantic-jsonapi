@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar, Optional, List, Any, Type
+from typing import Generic, TypeVar, Optional, List, Any, Type, get_type_hints
 from typing_extensions import Literal
 
 from pydantic.generics import GenericModel
@@ -8,7 +8,7 @@ from pydantic_jsonapi.relationships import RelationshipsType
 from pydantic_jsonapi.resource_links import ResourceLinks
 
 
-TypeT = TypeVar('TypeT')
+TypeT = TypeVar('TypeT', bound=str)
 AttributesT = TypeVar('AttributesT')
 class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
     """
@@ -22,7 +22,7 @@ class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
         validate_all = True
 
 
-DataT = TypeVar('DataT')
+DataT = TypeVar('DataT', bound=ResponseDataModel)
 class ResponseModel(GenericModel, Generic[DataT]):
     """
     """
@@ -41,6 +41,25 @@ class ResponseModel(GenericModel, Generic[DataT]):
         if serlialize_none:
             return response
         return filter_none(response)
+
+    @classmethod
+    def resource_object(
+        cls, 
+        *, 
+        id: str, 
+        attributes: Optional[ResponseDataModel] = None,
+        relationships: Optional[dict] = None
+    ) -> dict:
+        data_type = get_type_hints(cls)['data']
+        if getattr(data_type, '__origin__', None) is list:
+            data_type = data_type.__args__[0]
+        typename = get_type_hints(data_type)['type'].__args__[0]
+        return data_type(
+            id=id,
+            type=typename,
+            attributes=attributes or {},
+            relationships=relationships
+        ).dict()
 
 def JsonApiResponse(
     type_string: str,
