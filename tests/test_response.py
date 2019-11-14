@@ -203,13 +203,13 @@ class TestJsonApiResponse:
     def test_resource_object_constructor(self):
         ItemResponse = JsonApiResponse('item', ItemModel)
         item = ItemModel(name='pear', price=1.2, quantity=10)
-        document = ItemResponse.resource_object(id='abc123', attributes=item)
+        document = ItemResponse.resource_object(id='abc123', attributes=item).dict()
         assert document == {
             'id': 'abc123',
             'type': 'item',
             'attributes': {
-                'name': 'pear', 
-                'price': 1.2, 
+                'name': 'pear',
+                'price': 1.2,
                 'quantity': 10,
             },
             'relationships': None
@@ -217,7 +217,7 @@ class TestJsonApiResponse:
 
     def test_resource_object_constructor__no_attributes(self):
         IdentifierResponse = JsonApiResponse('item', None)
-        document = IdentifierResponse.resource_object(id='abc123')
+        document = IdentifierResponse.resource_object(id='abc123').dict()
         assert document == {
             'id': 'abc123',
             'type': 'item',
@@ -225,25 +225,25 @@ class TestJsonApiResponse:
             'relationships': None
         }
 
-        
+
     def test_resource_object_constructor__with_relationships(self):
         ItemResponse = JsonApiResponse('item', ItemModel)
         item = ItemModel(name='pear', price=1.2, quantity=10)
         document = ItemResponse.resource_object(
-            id='abc123', 
+            id='abc123',
             attributes=item,
             relationships={
                 'sold_at': {
                     'data': {'type': 'store', 'id': 'def456'}
                 }
             }
-        )
+        ).dict()
         assert document == {
             'id': 'abc123',
             'type': 'item',
             'attributes': {
-                'name': 'pear', 
-                'price': 1.2, 
+                'name': 'pear',
+                'price': 1.2,
                 'quantity': 10,
             },
             'relationships': {
@@ -264,7 +264,7 @@ class TestJsonApiResponse:
         item = ItemModel(name='pear', price=1.2, quantity=10)
         with raises(ValidationError) as e:
             ItemResponse.resource_object(
-                id='abc123', 
+                id='abc123',
                 attributes=item,
                 relationships={
                     'sold_at': {
@@ -284,8 +284,8 @@ class TestJsonApiResponse:
                 'type': 'type_error.none.allowed'
             },
             {
-                'loc': ('relationships',), 
-                'msg': 'value is not none', 
+                'loc': ('relationships',),
+                'msg': 'value is not none',
                 'type': 'type_error.none.allowed'
             }
         ]
@@ -293,13 +293,13 @@ class TestJsonApiResponse:
     def test_resource_object_constructor__with_list_response(self):
         ItemResponse = JsonApiResponse('item', ItemModel, use_list=True)
         item = ItemModel(name='pear', price=1.2, quantity=10)
-        document = ItemResponse.resource_object(id='abc123', attributes=item)
+        document = ItemResponse.resource_object(id='abc123', attributes=item).dict()
         assert document == {
             'id': 'abc123',
             'type': 'item',
             'attributes': {
-                'name': 'pear', 
-                'price': 1.2, 
+                'name': 'pear',
+                'price': 1.2,
                 'quantity': 10,
             },
             'relationships': None
@@ -308,14 +308,14 @@ class TestJsonApiResponse:
     def test_response_constructed_with_resource_object(self):
         ItemResponse = JsonApiResponse('item', ItemModel)
         item = ItemModel(name='pear', price=1.2, quantity=10)
-        data = ItemResponse.resource_object(id='abc123', attributes=item)
+        data = ItemResponse.resource_object(id='abc123', attributes=item).dict()
         assert ItemResponse(data=data).dict() == {
             'data': {
                 'id': 'abc123',
                 'type': 'item',
                 'attributes': {
-                    'name': 'pear', 
-                    'price': 1.2, 
+                    'name': 'pear',
+                    'price': 1.2,
                     'quantity': 10,
                 },
             }
@@ -329,7 +329,7 @@ class TestJsonApiResponse:
             price: float
             quantity: int
             created_at: datetime = datetime.utcnow()
-        
+
         ItemResponse = JsonApiResponse('item', ItemModelWithOrmMode, use_list=True)
         items = [
             FakeDBItem(item_id=1, name='apple', price=1.5, quantity=3),
@@ -348,8 +348,8 @@ class TestJsonApiResponse:
                     'id': '1',
                     'type': 'item',
                     'attributes': {
-                        'name': 'apple', 
-                        'price': 1.5, 
+                        'name': 'apple',
+                        'price': 1.5,
                         'quantity': 3,
                     },
                 },
@@ -357,8 +357,8 @@ class TestJsonApiResponse:
                     'id': '2',
                     'type': 'item',
                     'attributes': {
-                        'name': 'pear', 
-                        'price': 1.2, 
+                        'name': 'pear',
+                        'price': 1.2,
                         'quantity': 10,
                     },
                 },
@@ -366,8 +366,8 @@ class TestJsonApiResponse:
                     'id': '3',
                     'type': 'item',
                     'attributes': {
-                        'name': 'orange', 
-                        'price': 2.2, 
+                        'name': 'orange',
+                        'price': 2.2,
                         'quantity': 5,
                     },
                 },

@@ -44,12 +44,12 @@ class ResponseModel(GenericModel, Generic[DataT]):
 
     @classmethod
     def resource_object(
-        cls, 
-        *, 
-        id: str, 
-        attributes: Optional[ResponseDataModel] = None,
+        cls,
+        *,
+        id: str,
+        attributes: Optional[dict] = None,
         relationships: Optional[dict] = None
-    ) -> dict:
+    ) -> ResponseDataModel:
         data_type = get_type_hints(cls)['data']
         if getattr(data_type, '__origin__', None) is list:
             data_type = data_type.__args__[0]
@@ -59,7 +59,7 @@ class ResponseModel(GenericModel, Generic[DataT]):
             type=typename,
             attributes=attributes or {},
             relationships=relationships
-        ).dict()
+        )
 
 def JsonApiResponse(
     type_string: str,
