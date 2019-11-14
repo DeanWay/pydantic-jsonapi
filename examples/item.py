@@ -27,25 +27,15 @@ ITEM_TYPE_NAME = 'item'
 ItemRequest = JsonApiRequest(ITEM_TYPE_NAME, Item)
 ItemResponse = JsonApiResponse(ITEM_TYPE_NAME, Item)
 
-def marshal_item(item: ItemData) -> dict:
-    return {
-        'id': item.id,
-        'type': ITEM_TYPE_NAME,
-        'attributes': {
-            'name': item.name,
-            'quantity': item.quantity,
-            'price': item.price,
-        },
-    }
-
-
-
 # Simple post method logic
 def item_post_method(item_request: ItemRequest) -> ItemResponse:
     attributes = item_request.data.attributes
     item_row = ItemData(**attributes.dict())
     return ItemResponse(
-        data=marshal_item(item_row)
+        data=ItemResponse.resource_object(
+            id=item_row.id,
+            attributes=item_row
+        )
     )
 
 # example request
