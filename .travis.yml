@@ -1,7 +1,4 @@
 language: python
-python:
-  - '3.7'
-  - '3.8'
 install: pip install tox-travis
 script: tox
 stages:
@@ -15,6 +12,7 @@ jobs:
     - stage: test
       python: 3.8
     - stage: build
+      name: 'PyPI upload'
       python: 3.7
       deploy:
         provider: pypi
