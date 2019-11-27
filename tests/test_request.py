@@ -13,7 +13,13 @@ class TestJsonApiRequest:
             'data': {'type': 'item', 'attributes': {}}
         }
         my_request_obj = DictRequest(**obj_to_validate)
-        assert my_request_obj.dict() == obj_to_validate
+        assert my_request_obj.dict() == {
+            'data': {
+                'type': 'item',
+                'attributes': {},
+                'relationships': None,
+            }
+        }
 
     def test_attributes_as_item_model(self):
         ItemRequest = JsonApiRequest('item', ItemModel)
@@ -24,7 +30,8 @@ class TestJsonApiRequest:
                     'name': 'apple',
                     'quantity': 10,
                     'price': 1.20
-                }
+                },
+                'relationships': None,
             }
         }
         my_request_obj = ItemRequest(**obj_to_validate)
@@ -87,3 +94,23 @@ class TestJsonApiRequest:
         assert e.value.errors() == [
             {'loc': ('data',), 'msg': 'value is not a valid dict', 'type': 'type_error.dict'},
         ]
+
+    def test_request_with_relationships(self):
+        MyRequest = JsonApiRequest('item', dict)
+        obj_to_validate = {
+            'data': {
+                'type': 'item',
+                'attributes': {},
+                'relationships': {
+                    'sold_at': {
+                        'data': {
+                            'type': 'store',
+                            'id': 'abc123',
+                            'meta': None
+                        },
+                    }
+                }
+            },
+        }
+        my_request_obj = MyRequest(**obj_to_validate)
+        assert my_request_obj.dict() == obj_to_validate
