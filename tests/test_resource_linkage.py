@@ -52,7 +52,6 @@ class TestResourceLinks:
             {'loc': ('data', 'id'), 'msg': 'field required', 'type': 'value_error.missing'},
             {'loc': ('data', 'type'), 'msg': 'field required', 'type': 'value_error.missing'},
             {'loc': ('data',), 'msg': 'value is not a valid list', 'type': 'type_error.list'},
-            {'loc': ('data',), 'msg': 'value is not none', 'type': 'type_error.none.allowed'},
         ]
 
     def test_invalid_resource_identifier_array(self):
@@ -67,5 +66,4 @@ class TestResourceLinks:
             {'loc': ('data',), 'msg': 'value is not a valid dict', 'type': 'type_error.dict'},
             {'loc': ('data', 0, 'id'), 'msg': 'field required', 'type': 'value_error.missing'},
             {'loc': ('data', 0, 'type'), 'msg': 'field required', 'type': 'value_error.missing'},
-            {'loc': ('data',), 'msg': 'value is not none', 'type': 'type_error.none.allowed'}
         ]
