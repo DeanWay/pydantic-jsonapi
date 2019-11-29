@@ -177,8 +177,8 @@ class TestJsonApiResponse:
         assert e.value.errors() == [
             {
                 'loc': ('data', 'attributes'),
-                'msg': 'value is not a valid dict',
-                'type': 'type_error.dict',
+                'msg': 'none is not an allowed value',
+                'type': 'type_error.none.not_allowed',
             },
         ]
 
@@ -216,7 +216,7 @@ class TestJsonApiResponse:
         }
 
     def test_resource_object_constructor__no_attributes(self):
-        IdentifierResponse = JsonApiResponse('item', None)
+        IdentifierResponse = JsonApiResponse('item', dict)
         document = IdentifierResponse.resource_object(id='abc123').dict()
         assert document == {
             'id': 'abc123',
@@ -278,16 +278,6 @@ class TestJsonApiResponse:
                 'msg': 'value is not a valid dict',
                 'type': 'type_error.dict'
             },
-            {
-                'loc': ('relationships', 'sold_at', 'meta'),
-                'msg': 'value is not none',
-                'type': 'type_error.none.allowed'
-            },
-            {
-                'loc': ('relationships',),
-                'msg': 'value is not none',
-                'type': 'type_error.none.allowed'
-            }
         ]
 
     def test_resource_object_constructor__with_list_response(self):

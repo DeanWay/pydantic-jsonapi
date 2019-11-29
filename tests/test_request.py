@@ -82,7 +82,7 @@ class TestJsonApiRequest:
             MyRequest(**obj_to_validate)
 
         assert e.value.errors() == [
-            {'loc': ('data', 'attributes'), 'msg': 'value is not a valid dict', 'type': 'type_error.dict'},
+            {'loc': ('data', 'attributes'), 'msg': 'none is not an allowed value', 'type': 'type_error.none.not_allowed'},
         ]
 
     def test_data_required(self):
@@ -94,7 +94,7 @@ class TestJsonApiRequest:
             MyRequest(**obj_to_validate)
 
         assert e.value.errors() == [
-            {'loc': ('data',), 'msg': 'value is not a valid dict', 'type': 'type_error.dict'},
+            {'loc': ('data',), 'msg': 'none is not an allowed value', 'type': 'type_error.none.not_allowed'},
         ]
 
     def test_request_with_relationships(self):

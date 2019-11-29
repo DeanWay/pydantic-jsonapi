@@ -33,5 +33,4 @@ class TestResourceIdentifier:
             )
         assert e.value.errors() == [
             {'loc': ('meta',), 'msg': 'value is not a valid dict', 'type': 'type_error.dict'},
-            {'loc': ('meta',), 'msg': 'value is not none', 'type': 'type_error.none.allowed'}
         ]
