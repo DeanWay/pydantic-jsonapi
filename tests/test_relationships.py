@@ -1,14 +1,14 @@
 from pytest import raises
 
-from pydantic_jsonapi.relationships import RelationshipsType
+from pydantic_jsonapi.relationships import ResponseRelationshipsType
 from pydantic import BaseModel, ValidationError
 
 
 class Relatable(BaseModel):
-    relationships: RelationshipsType
+    relationships: ResponseRelationshipsType
 
 
-class TestRelationshipsType:
+class TestResponseRelationshipsType:
     def test_follows_strucutre(self):
         validated = Relatable(relationships={
             'walter': {

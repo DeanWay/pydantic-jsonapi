@@ -4,7 +4,7 @@ from typing_extensions import Literal
 from pydantic.generics import GenericModel
 
 from pydantic_jsonapi.filter import filter_none
-from pydantic_jsonapi.relationships import RelationshipsType
+from pydantic_jsonapi.relationships import ResponseRelationshipsType
 from pydantic_jsonapi.resource_links import ResourceLinks
 
 
@@ -16,7 +16,7 @@ class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
     id: str
     type: TypeT
     attributes: AttributesT = {}
-    relationships: Optional[RelationshipsType]
+    relationships: Optional[ResponseRelationshipsType]
 
     class Config:
         validate_all = True

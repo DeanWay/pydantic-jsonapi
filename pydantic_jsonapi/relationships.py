@@ -6,10 +6,17 @@ from pydantic_jsonapi.resource_linkage import ResourceLinkage
 from pydantic_jsonapi.resource_links import ResourceLinks
 
 
-class RelationshipModel(BaseModel):
+class RequestRelationshipModel(BaseModel):
+    data: ResourceLinkage
+
+RequestRelationshipsType = Mapping[str, RequestRelationshipModel]
+RequestRelationshipsType.__doc__ = "https://jsonapi.org/format/#crud-creating"
+
+
+class ResponseRelationshipModel(BaseModel):
     links: Optional[ResourceLinks]
     data: ResourceLinkage
     meta: Optional[dict]
 
-RelationshipsType = Mapping[str, RelationshipModel]
-RelationshipsType.__doc__ = "https://jsonapi.org/format/#document-resource-object-relationships"
+ResponseRelationshipsType = Mapping[str, ResponseRelationshipModel]
+ResponseRelationshipsType.__doc__ = "https://jsonapi.org/format/#document-resource-object-relationships"

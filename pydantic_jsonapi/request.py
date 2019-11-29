@@ -1,7 +1,10 @@
 from typing import Generic, TypeVar, Optional, Any, Type
 from typing_extensions import Literal
 
+from pydantic import UUID4
 from pydantic.generics import GenericModel
+
+from pydantic_jsonapi.relationships import RequestRelationshipsType
 
 
 TypeT = TypeVar('TypeT')
@@ -11,6 +14,7 @@ class RequestDataModel(GenericModel, Generic[TypeT, AttributesT]):
     """
     type: TypeT
     attributes: AttributesT
+    relationships: Optional[RequestRelationshipsType]
 
 
 DataT = TypeVar('DataT', bound=RequestDataModel)
