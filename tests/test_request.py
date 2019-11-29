@@ -18,6 +18,7 @@ class TestJsonApiRequest:
                 'type': 'item',
                 'attributes': {},
                 'relationships': None,
+                'id': None,
             }
         }
 
@@ -32,6 +33,7 @@ class TestJsonApiRequest:
                     'price': 1.20
                 },
                 'relationships': None,
+                'id': None,
             }
         }
         my_request_obj = ItemRequest(**obj_to_validate)
@@ -113,4 +115,39 @@ class TestJsonApiRequest:
             },
         }
         my_request_obj = MyRequest(**obj_to_validate)
-        assert my_request_obj.dict() == obj_to_validate
+        assert my_request_obj.dict() == {
+            'data': {
+                'type': 'item',
+                'attributes': {},
+                'relationships': {
+                    'sold_at': {
+                        'data': {
+                            'type': 'store',
+                            'id': 'abc123',
+                            'meta': None
+                        },
+                    }
+                },
+                'id': None
+            },
+        }
+
+    def test_request_with_id(self):
+        MyRequest = JsonApiRequest('item', dict)
+        obj_to_validate = {
+            'data': {
+                'type': 'item',
+                'attributes': {},
+                'id': 'abc123'
+            },
+        }
+        my_request_obj = MyRequest(**obj_to_validate)
+        assert my_request_obj.dict() == {
+            'data': {
+                'type': 'item',
+                'attributes': {},
+                'relationships': None,
+                'id': 'abc123',
+            },
+        }
+
