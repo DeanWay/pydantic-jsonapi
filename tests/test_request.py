@@ -39,6 +39,19 @@ class TestJsonApiRequest:
         my_request_obj = ItemRequest(**obj_to_validate)
         assert my_request_obj.dict() == obj_to_validate
 
+    def test_attributes_not_required(self):
+        MyRequest = JsonApiRequest('item', dict)
+        obj_to_validate = {
+            'data': {
+                'type': 'item',
+                'attributes': None,
+                'relationships': None,
+                'id': None,
+            }
+        }
+        my_request_obj = MyRequest(**obj_to_validate)
+        assert my_request_obj.dict() == obj_to_validate
+
     def test_attributes_as_item_model__empty_dict(self):
         ItemRequest = JsonApiRequest('item', ItemModel)
         obj_to_validate = {
@@ -71,18 +84,6 @@ class TestJsonApiRequest:
                 'type': 'value_error.const',
                 'ctx': {'given': 'not_an_item', 'permitted': ('item',)},
             },
-        ]
-
-    def test_attributes_required(self):
-        MyRequest = JsonApiRequest('item', dict)
-        obj_to_validate = {
-            'data': {'type': 'item', 'attributes': None}
-        }
-        with raises(ValidationError) as e:
-            MyRequest(**obj_to_validate)
-
-        assert e.value.errors() == [
-            {'loc': ('data', 'attributes'), 'msg': 'none is not an allowed value', 'type': 'type_error.none.not_allowed'},
         ]
 
     def test_data_required(self):

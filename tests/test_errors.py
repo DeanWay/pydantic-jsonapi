@@ -64,12 +64,5 @@ def test_transform_to_json_api_errors():
                 },
                 'title': 'value_error.const'
             },
-            {
-                'detail': 'field required',
-                'source': {
-                    'pointer': '/data/attributes'
-                },
-                'title': 'value_error.missing'
-            },
         ]
     }
