@@ -17,6 +17,7 @@ class ResponseDataModel(GenericModel, Generic[TypeT, AttributesT]):
     type: TypeT
     attributes: AttributesT = {}
     relationships: Optional[ResponseRelationshipsType]
+    links: Optional[ResourceLinks]
 
     class Config:
         validate_all = True
@@ -48,7 +49,8 @@ class ResponseModel(GenericModel, Generic[DataT]):
         *,
         id: str,
         attributes: Optional[dict] = None,
-        relationships: Optional[dict] = None
+        relationships: Optional[dict] = None,
+        links: Optional[dict] = None,
     ) -> ResponseDataModel:
         data_type = get_type_hints(cls)['data']
         if getattr(data_type, '__origin__', None) is list:
@@ -58,7 +60,8 @@ class ResponseModel(GenericModel, Generic[DataT]):
             id=id,
             type=typename,
             attributes=attributes or {},
-            relationships=relationships
+            relationships=relationships,
+            links=links,
         )
 
 def JsonApiResponse(

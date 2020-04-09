@@ -79,6 +79,9 @@ class TestJsonApiResponse:
                         },
                     },
                 },
+                'links': {
+                    'self': '/items/123',
+                },
             }
         }
         my_response_obj = ItemResponse(**obj_to_validate)
@@ -97,6 +100,9 @@ class TestJsonApiResponse:
                             'related': '/stores/123',
                         },
                     },
+                },
+                'links': {
+                    'self': '/items/123',
                 },
             },
         }
@@ -212,7 +218,8 @@ class TestJsonApiResponse:
                 'price': 1.2,
                 'quantity': 10,
             },
-            'relationships': None
+            'relationships': None,
+            'links': None,
         }
 
     def test_resource_object_constructor__no_attributes(self):
@@ -222,7 +229,8 @@ class TestJsonApiResponse:
             'id': 'abc123',
             'type': 'item',
             'attributes': {},
-            'relationships': None
+            'relationships': None,
+            'links': None,
         }
 
 
@@ -256,7 +264,8 @@ class TestJsonApiResponse:
                     'links': None,
                     'meta': None,
                 }
-            }
+            },
+            'links': None,
         }
 
     def test_resource_object_constructor__with_invalid_relationship(self):
@@ -280,6 +289,45 @@ class TestJsonApiResponse:
             },
         ]
 
+    def test_resource_object_constructor__with_links(self):
+        ItemResponse = JsonApiResponse('item', ItemModel)
+        item = ItemModel(name='pear', price=1.2, quantity=10)
+        document = ItemResponse.resource_object(
+            id='abc123',
+            attributes=item,
+            links={'self': '/items/abc123'}
+        ).dict()
+        assert document == {
+            'id': 'abc123',
+            'type': 'item',
+            'attributes': {
+                'name': 'pear',
+                'price': 1.2,
+                'quantity': 10,
+            },
+            'relationships': None,
+            'links': {
+                'self': '/items/abc123',
+            },
+        }
+
+    def test_resource_object_constructor__with_invalid_links(self):
+        ItemResponse = JsonApiResponse('item', ItemModel)
+        item = ItemModel(name='pear', price=1.2, quantity=10)
+        with raises(ValidationError) as e:
+            ItemResponse.resource_object(
+                id='abc123',
+                attributes=item,
+                links='/items/abc123',
+            )
+        assert e.value.errors() == [
+            {
+                'loc': ('links',),
+                'msg': 'value is not a valid dict',
+                'type': 'type_error.dict'
+            },
+        ]
+
     def test_resource_object_constructor__with_list_response(self):
         ItemResponse = JsonApiResponse('item', ItemModel, use_list=True)
         item = ItemModel(name='pear', price=1.2, quantity=10)
@@ -292,7 +340,8 @@ class TestJsonApiResponse:
                 'price': 1.2,
                 'quantity': 10,
             },
-            'relationships': None
+            'relationships': None,
+            'links': None,
         }
 
     def test_response_constructed_with_resource_object(self):
