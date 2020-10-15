@@ -22,10 +22,14 @@ class Item(BaseModel):
     name: str
     quantity: int
     price: float
+    class Config:
+        orm_mode = True
+
 
 ITEM_TYPE_NAME = 'item'
 ItemRequest = JsonApiRequest(ITEM_TYPE_NAME, Item)
 ItemResponse = JsonApiResponse(ITEM_TYPE_NAME, Item)
+ItemListResponse = JsonApiResponse(ITEM_TYPE_NAME, Item, use_list=True)
 
 # Simple post method logic
 def item_post_method(item_request: ItemRequest) -> ItemResponse:
@@ -37,6 +41,22 @@ def item_post_method(item_request: ItemRequest) -> ItemResponse:
             attributes=item_row
         )
     )
+
+
+def item_list_get_method() -> ItemListResponse:
+    item_rows = [
+       ItemData(name="apple", quantity=10, price=1.5),
+       ItemData(name="orange", quantity=0, price=2.2),
+    ]
+    return ItemListResponse(
+        data=[
+            ItemListResponse.resource_object(
+                id=item_row.id,
+                attributes=item_row
+            ) for item_row in item_rows
+        ]
+    )
+
 
 # example request
 mock_request = {
